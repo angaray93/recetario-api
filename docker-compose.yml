@@ -1,0 +1,15 @@
+version: "3.9"
+services:
+  app_recetas:
+    build: .
+    ports:
+      - "3000:3000"
+    links:
+      - mongo_recetas
+  mongo_recetas:
+    image: mongo
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=agaray
+      - MONGO_INITDB_ROOT_PASSWORD=recipes

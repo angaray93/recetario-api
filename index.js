@@ -15,8 +15,6 @@ mongoose.connect('mongodb://agaray:recipes@localhost:27017/recipesdb?authSource=
 //Middleware
 app.use(express.json())
 
-const database = client.db("recipesdb");
-
 // Routes
 app.post('/new_user', async (req,res) => {
     const user = userSchema(req.body);
