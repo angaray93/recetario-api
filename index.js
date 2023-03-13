@@ -15,6 +15,8 @@ mongoose.connect('mongodb://agaray:recipes@localhost:27017/recipesdb?authSource=
 //Middleware
 app.use(express.json())
 
+const database = client.db("recipesdb");
+
 // Routes
 app.post('/new_user', async (req,res) => {
     const user = userSchema(req.body);
@@ -64,12 +66,17 @@ app.get('/recipes', async (req,res) => {
 })
 
 app.get('/recipesbyingredient', async (req,res) => {
-    const ingredients_req = req.body.ingredients;
+    const { ingredients } = req.body;
+    const ingredientsArray = ingredients.map(a => a.name);
+    //const ingredientsObj = await ingredientsSchema.find("ingredients": {$in:ingredientsArray});
+    //const ingredientes = database.collection("ingredients");
+
+    console.log(ingredientsArray)
     try {
         let collection = await recipeSchema.find(
         {
-            "ingredients": {$all:ingredients_req},
-            "ingredients":{$size:1}
+            "ingredients": {$in:ingredientsArray},
+            //"ingredients":{$size:1}
         });
         console.log(collection)
         res.json(collection)
